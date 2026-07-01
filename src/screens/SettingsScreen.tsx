@@ -97,6 +97,30 @@ export function SettingsScreen() {
     <Screen>
       <ScreenHeader emoji="⚙️" title="Réglages" subtitle="À ton rythme, à ta façon." />
 
+      <Section title="Ma plante 🌱" hint="Un prénom, et on en prend deux fois plus soin.">
+        <input
+          type="text"
+          value={settings.plantName ?? ''}
+          onChange={(e) => updateSettings({ plantName: e.target.value.trim() ? e.target.value : null })}
+          placeholder="Ex. : Basile, Pousse, Léon…"
+          maxLength={20}
+          className="w-full rounded-2xl border border-border bg-surface2 px-4 py-3 text-sm text-ink placeholder:text-ink-soft/70 focus:outline-none focus:ring-4 focus:ring-primary/20"
+        />
+      </Section>
+
+      <Section
+        title="D'où je pars 🧭"
+        hint="Ta conso avant Mood Garden — la carte « D'où tu pars » de l'écran Progrès s'en sert."
+      >
+        <Stepper
+          value={settings.baselinePerDay ?? 0}
+          min={0}
+          max={30}
+          onChange={(v) => updateSettings({ baselinePerDay: v > 0 ? v : null })}
+          format={(v) => (v > 0 ? `~${v} joint${v > 1 ? 's' : ''} / jour` : 'Non renseigné')}
+        />
+      </Section>
+
       <Section title="Ton objectif doux" hint="Un cap bienveillant, jamais une limite qui punit.">
         <SegmentedControl<GoalScope>
           options={[

@@ -54,6 +54,38 @@ export function topTriggerLast7Days(entries: Entry[], now = Date.now()): Trigger
   return best
 }
 
+// ---- Depuis ton point de départ (baseline) ----
+
+export interface BaselineComparison {
+  baseline: number
+  /** Moyenne de moments fumés/jour sur les 7 derniers jours (d'après ce qui est noté). */
+  avgLast7: number
+  /** % de réduction vs le point de départ — null si pas (encore) en baisse. */
+  improvementPct: number | null
+  /** 0..1 : position actuelle entre baseline (0) et zéro (1), pour une jauge. */
+  progress: number
+}
+
+export function baselineComparison(
+  entries: Entry[],
+  baselinePerDay: number | null,
+  now = Date.now(),
+): BaselineComparison | null {
+  if (!baselinePerDay || baselinePerDay <= 0) return null
+  const from = startOfDay(now) - 6 * 86_400_000
+  const smoked = entries.filter(
+    (e) => e.actionType === 'smoked' && e.timestamp >= from,
+  ).length
+  const avgLast7 = Math.round((smoked / 7) * 10) / 10
+  const improvement = 1 - avgLast7 / baselinePerDay
+  return {
+    baseline: baselinePerDay,
+    avgLast7,
+    improvementPct: improvement > 0 ? Math.round(improvement * 100) : null,
+    progress: Math.min(1, Math.max(0, improvement)),
+  }
+}
+
 // ---- Tendance douce (jamais culpabilisante) ----
 
 /**

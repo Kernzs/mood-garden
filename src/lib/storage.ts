@@ -16,6 +16,8 @@ export const defaultSettings: Settings = {
   language: 'fr',
   onboardingDone: false,
   rewardGoal: null,
+  baselinePerDay: null,
+  plantName: null,
 }
 
 export const defaultProgress: Progress = {

@@ -3,7 +3,14 @@ import type { ActionType } from '@/types'
 import { useGarden } from '@/context/GardenContext'
 import { useToast } from '@/hooks/useToast'
 import { todayTotals, currentStreak } from '@/lib/stats'
-import { APP_NAME, homeGreetings, positiveAffirmations, actionEmojis, pickFrom } from '@/lib/copy'
+import {
+  APP_NAME,
+  homeGreetings,
+  plantGreetings,
+  positiveAffirmations,
+  actionEmojis,
+  pickFrom,
+} from '@/lib/copy'
 import { hapticTap, hapticSuccess } from '@/lib/haptics'
 import { useToday } from '@/hooks/useToday'
 import { GardenScene } from '@/components/garden/GardenScene'
@@ -20,7 +27,8 @@ import { BreathingOverlay, type SosOutcome } from '@/components/sos/BreathingOve
 import { Screen } from '@/components/layout/Screen'
 
 export function HomeScreen() {
-  const { entries, progress, logAction, setEntryDetails, waterGarden } = useGarden()
+  const { entries, progress, settings, logAction, setEntryDetails, waterGarden } = useGarden()
+  const plantName = settings.plantName
   const { toast } = useToast()
   const today = useToday()
 
@@ -74,7 +82,7 @@ export function HomeScreen() {
     const res = waterGarden()
     if (!res) return // déjà arrosé aujourd'hui
     setBurst({ id: ++burstCounter.current, amount: 1, spark: '💧' })
-    toast('Ton jardin te remercie 💧')
+    toast(plantName ? `${plantName} te remercie 💧` : 'Ton jardin te remercie 💧')
     if (res.stageUp) {
       setCelebration(res.stageUp)
       hapticSuccess()
@@ -111,7 +119,9 @@ export function HomeScreen() {
         <h1 className="text-[1.7rem] leading-tight text-ink">
           {APP_NAME} <span aria-hidden>🌱</span>
         </h1>
-        <p className="text-sm text-ink-soft">{pickFrom(homeGreetings, greetingSeed)}</p>
+        <p className="text-sm text-ink-soft">
+          {pickFrom(plantName ? plantGreetings(plantName) : homeGreetings, greetingSeed)}
+        </p>
       </header>
 
       {/* Jardin */}
@@ -202,6 +212,7 @@ export function HomeScreen() {
         <StepUpCelebration
           from={celebration.from}
           to={celebration.to}
+          plantName={plantName}
           onClose={() => setCelebration(null)}
         />
       )}

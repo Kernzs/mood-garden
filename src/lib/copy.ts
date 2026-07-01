@@ -85,6 +85,17 @@ export const homeGreetings = [
   'Chaque jour est une nouvelle pousse.',
 ]
 
+/** Variantes affectueuses quand la plante a un prénom. */
+export function plantGreetings(name: string): string[] {
+  return [
+    `${name} t’attendait 🌼`,
+    `${name} a hâte de pousser avec toi.`,
+    `Prends soin de toi — ${name} s’occupe du reste.`,
+    `${name} pousse tranquillement. Toi aussi.`,
+    `Un petit coucou de ${name} 🌱`,
+  ]
+}
+
 /** Messages doux après « J’ai fumé » — zéro jugement. */
 export const smokedMessages = [
   'Merci d’être honnête avec toi 💛',

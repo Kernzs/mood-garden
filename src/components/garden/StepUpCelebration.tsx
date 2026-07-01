@@ -9,10 +9,11 @@ const PETAL_EMOJIS = ['🌸', '🌼', '🍃', '✨', '🌷', '🦋']
 interface StepUpCelebrationProps {
   from: number
   to: number
+  plantName?: string | null
   onClose: () => void
 }
 
-export function StepUpCelebration({ from, to, onClose }: StepUpCelebrationProps) {
+export function StepUpCelebration({ from, to, plantName, onClose }: StepUpCelebrationProps) {
   const target = getStage(to)
   const previous = getStage(from)
 
@@ -56,7 +57,7 @@ export function StepUpCelebration({ from, to, onClose }: StepUpCelebrationProps)
         onClick={(e) => e.stopPropagation()}
       >
         <p className="text-sm font-bold uppercase tracking-wide text-primary-ink">
-          Ton jardin grandit
+          {plantName ? `${plantName} grandit` : 'Ton jardin grandit'}
         </p>
         <div className="mx-auto my-3 h-40 w-40">
           <GardenScene stage={to} />

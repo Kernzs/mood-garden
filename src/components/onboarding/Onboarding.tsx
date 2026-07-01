@@ -23,20 +23,28 @@ export function Onboarding() {
   const [step, setStep] = useState(0)
   const [cost, setCost] = useState(settings.costPerJoint)
   const [goal, setGoal] = useState(settings.goalValue)
+  const [baseline, setBaseline] = useState(settings.baselinePerDay ?? 3)
+  const [plantName, setPlantName] = useState('')
 
   const isSetup = step === SLIDES.length
   const total = SLIDES.length + 1
 
   const finish = () => {
-    updateSettings({ costPerJoint: cost, goalValue: goal, onboardingDone: true })
+    updateSettings({
+      costPerJoint: cost,
+      goalValue: goal,
+      baselinePerDay: baseline > 0 ? baseline : null,
+      plantName: plantName.trim() || null,
+      onboardingDone: true,
+    })
   }
 
   return (
-    <div className="fixed inset-0 z-50 flex flex-col">
+    <div className="fixed inset-0 z-50 flex flex-col overflow-y-auto no-scrollbar">
       <div className="mx-auto flex min-h-full w-full max-w-md flex-1 flex-col px-6 pb-8 pt-[max(env(safe-area-inset-top),2rem)]">
-        {/* Illustration */}
-        <div className="mt-4 grid flex-1 place-items-center">
-          <div className="w-full max-w-[280px]">
+        {/* Illustration (compacte sur l'écran de réglages) */}
+        <div className={cn('grid place-items-center', isSetup ? 'mt-1' : 'mt-4 flex-1')}>
+          <div className={cn('w-full', isSetup ? 'max-w-[150px]' : 'max-w-[280px]')}>
             <div className="overflow-hidden rounded-[2rem] border border-border shadow-[var(--shadow-soft)]">
               <div className="aspect-square">
                 <GardenScene stage={isSetup ? 6 : SLIDES[step].stage} />
@@ -56,10 +64,23 @@ export function Onboarding() {
             <div>
               <h1 className="text-center text-2xl text-ink">On personnalise ? ✨</h1>
               <p className="mx-auto mt-2 mb-5 max-w-xs text-center text-sm text-ink-soft">
-                Deux petits réglages, modifiables à tout moment.
+                Quelques petits réglages, modifiables à tout moment.
               </p>
 
-              <div className="space-y-4">
+              <div className="space-y-3">
+                <div className="card-soft p-4">
+                  <p className="mb-1 text-sm font-bold text-ink">D'où je pars 🧭</p>
+                  <p className="mb-2 text-xs text-ink-soft">
+                    Ta conso actuelle, sans jugement — juste pour voir ta progression.
+                  </p>
+                  <Stepper
+                    value={baseline}
+                    min={0}
+                    max={30}
+                    onChange={setBaseline}
+                    format={(v) => (v > 0 ? `~${v} joint${v > 1 ? 's' : ''} / jour` : 'Je préfère ne pas dire')}
+                  />
+                </div>
                 <div className="card-soft p-4">
                   <p className="mb-2 text-sm font-bold text-ink">Coût d'un joint (estim.)</p>
                   <Stepper
@@ -79,6 +100,18 @@ export function Onboarding() {
                     max={30}
                     onChange={setGoal}
                     format={(v) => `${v} moment${v > 1 ? 's' : ''}`}
+                  />
+                </div>
+                <div className="card-soft p-4">
+                  <p className="mb-1 text-sm font-bold text-ink">Un prénom pour ta plante ? 🌱</p>
+                  <p className="mb-2 text-xs text-ink-soft">Optionnel — mais ça aide à en prendre soin.</p>
+                  <input
+                    type="text"
+                    value={plantName}
+                    onChange={(e) => setPlantName(e.target.value)}
+                    placeholder="Ex. : Basile, Pousse, Léon…"
+                    maxLength={20}
+                    className="w-full rounded-2xl border border-border bg-surface2 px-4 py-3 text-sm text-ink placeholder:text-ink-soft/70 focus:outline-none focus:ring-4 focus:ring-primary/20"
                   />
                 </div>
               </div>

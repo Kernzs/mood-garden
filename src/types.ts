@@ -59,6 +59,10 @@ export interface Settings {
   language: 'fr'
   onboardingDone: boolean
   rewardGoal: RewardGoal | null
+  /** Consommation estimée AVANT Mood Garden (joints/jour) — le point de départ. */
+  baselinePerDay: number | null
+  /** Le prénom de la plante 💛 (optionnel, pour l'attachement). */
+  plantName: string | null
 }
 
 export interface Progress {

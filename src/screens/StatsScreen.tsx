@@ -8,6 +8,7 @@ import { TriggerBreakdown } from '@/components/stats/TriggerBreakdown'
 import { MilestonesCard } from '@/components/stats/MilestonesCard'
 import { RewardCard } from '@/components/stats/RewardCard'
 import { UrgePatternsCard } from '@/components/stats/UrgePatternsCard'
+import { BaselineCard } from '@/components/stats/BaselineCard'
 import { EmptyState } from '@/components/journal/EmptyState'
 import {
   countByAction,
@@ -61,6 +62,9 @@ export function StatsScreen() {
 
       {/* Récompense réelle (si définie) */}
       <RewardCard />
+
+      {/* D'où tu pars (si point de départ défini) */}
+      <BaselineCard />
 
       {/* Cartes clés */}
       <div className="grid grid-cols-2 gap-3">
