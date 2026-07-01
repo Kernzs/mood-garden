@@ -1,4 +1,5 @@
 import { useEffect } from 'react'
+import { createPortal } from 'react-dom'
 import { getStage } from '@/lib/garden'
 import { GardenScene } from '@/components/garden/GardenScene'
 import { Button } from '@/components/ui/Button'
@@ -28,9 +29,9 @@ export function StepUpCelebration({ from, to, onClose }: StepUpCelebrationProps)
     size: 14 + (i % 4) * 5,
   }))
 
-  return (
+  return createPortal(
     <div
-      className="anim-fade fixed inset-0 z-[70] grid place-items-center bg-black/45 px-6 backdrop-blur-sm"
+      className="anim-fade fixed inset-0 z-[80] grid place-items-center bg-black/45 px-6 backdrop-blur-sm"
       onClick={onClose}
     >
       {/* Pétales qui tombent */}
@@ -69,6 +70,7 @@ export function StepUpCelebration({ from, to, onClose }: StepUpCelebrationProps)
           Continuer 🌿
         </Button>
       </div>
-    </div>
+    </div>,
+    document.body,
   )
 }
