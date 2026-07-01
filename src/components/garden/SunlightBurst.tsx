@@ -1,5 +1,11 @@
-/** Overlay éphémère : « +N ☀️ » qui monte + petites étincelles de soleil. */
-export function SunlightBurst({ amount }: { amount: number }) {
+interface SunlightBurstProps {
+  amount: number
+  /** Emoji des étincelles qui montent (✨ par défaut, 💧 pour l'arrosage). */
+  spark?: string
+}
+
+/** Overlay éphémère : « +N ☀️ » qui monte + petites étincelles. */
+export function SunlightBurst({ amount, spark = '✨' }: SunlightBurstProps) {
   const bits = [
     { left: '38%', delay: '0.02s' },
     { left: '52%', delay: '0.12s' },
@@ -26,7 +32,7 @@ export function SunlightBurst({ amount }: { amount: number }) {
             animation: `rise-fade 1.3s ease-out ${b.delay} forwards`,
           }}
         >
-          ✨
+          {spark}
         </span>
       ))}
     </div>

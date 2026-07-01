@@ -5,6 +5,9 @@ import { StatCard } from '@/components/stats/StatCard'
 import { TrendChart } from '@/components/stats/TrendChart'
 import { GoalRing } from '@/components/stats/GoalRing'
 import { TriggerBreakdown } from '@/components/stats/TriggerBreakdown'
+import { MilestonesCard } from '@/components/stats/MilestonesCard'
+import { RewardCard } from '@/components/stats/RewardCard'
+import { UrgePatternsCard } from '@/components/stats/UrgePatternsCard'
 import { EmptyState } from '@/components/journal/EmptyState'
 import {
   countByAction,
@@ -56,6 +59,9 @@ export function StatsScreen() {
         <GoalRing goal={stats.goal} />
       </div>
 
+      {/* Récompense réelle (si définie) */}
+      <RewardCard />
+
       {/* Cartes clés */}
       <div className="grid grid-cols-2 gap-3">
         <StatCard emoji="🌿" value={stats.totals.avoided} label="Moments évités" tint="green" />
@@ -84,12 +90,18 @@ export function StatsScreen() {
         <TrendChart data={stats.series} />
       </div>
 
+      {/* Moments d'envie (créneaux + tendance douce) */}
+      <UrgePatternsCard />
+
       {/* Déclencheurs */}
       <div className="card-soft p-4">
         <h2 className="mb-1 text-base text-ink">Tes déclencheurs</h2>
         <p className="mb-3 text-xs text-ink-soft">Sans jugement — juste pour mieux te connaître.</p>
         <TriggerBreakdown data={stats.triggers} />
       </div>
+
+      {/* Jalons */}
+      <MilestonesCard />
     </Screen>
   )
 }

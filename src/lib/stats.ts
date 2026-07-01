@@ -47,6 +47,11 @@ export function moneySaved(entries: Entry[], costPerJoint: number): number {
   return countByAction(entries).jointsAvoided * costPerJoint
 }
 
+/** Économies réalisées depuis une date (pour l'objectif « récompense réelle »). */
+export function moneySavedSince(entries: Entry[], costPerJoint: number, since: number): number {
+  return countByAction(entries.filter((e) => e.timestamp >= since)).jointsAvoided * costPerJoint
+}
+
 /**
  * Série douce : nb de jours consécutifs (finissant aujourd'hui ou hier) avec ≥1 choix positif.
  * Aucun jugement — juste un petit encouragement.
@@ -148,6 +153,6 @@ export function goalProgress(entries: Entry[], settings: Settings, now = Date.no
     value,
     target,
     ratio: Math.min(1, value / target),
-    scopeLabel: settings.goalScope === 'daily' ? 'aujourd’hui' : 'cette semaine',
+    scopeLabel: settings.goalScope === 'daily' ? 'aujourd’hui' : 'sur les 7 derniers jours',
   }
 }

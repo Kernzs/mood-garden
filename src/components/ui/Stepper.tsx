@@ -24,7 +24,14 @@ export function Stepper({
   const display = format ? format(value) : `${value}${suffix ? ` ${suffix}` : ''}`
 
   return (
-    <div className="flex items-center justify-between gap-3 rounded-full border border-border bg-surface2 p-1.5">
+    <div
+      role="spinbutton"
+      aria-valuenow={value}
+      aria-valuemin={min}
+      aria-valuemax={Number.isFinite(max) ? max : undefined}
+      aria-valuetext={display}
+      className="flex items-center justify-between gap-3 rounded-full border border-border bg-surface2 p-1.5"
+    >
       <StepBtn label="−" onClick={() => onChange(clamp(value - step))} disabled={value <= min} />
       <div className="min-w-0 flex-1 text-center text-lg font-extrabold text-ink tabular-nums">
         {display}
@@ -45,6 +52,7 @@ function StepBtn({
 }) {
   return (
     <button
+      aria-label={label === '−' ? 'Diminuer' : 'Augmenter'}
       onClick={onClick}
       disabled={disabled}
       className={cn(

@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { useGarden } from '@/context/GardenContext'
+import { useMilestones } from '@/hooks/useMilestones'
 import { BottomNav, type TabKey } from '@/components/layout/BottomNav'
 import { HomeScreen } from '@/screens/HomeScreen'
 import { JournalScreen } from '@/screens/JournalScreen'
@@ -10,6 +11,9 @@ import { Onboarding } from '@/components/onboarding/Onboarding'
 export default function App() {
   const { settings, hydrated } = useGarden()
   const [tab, setTab] = useState<TabKey>('home')
+
+  // Détection des jalons (toast de fête à la première atteinte)
+  useMilestones()
 
   // Évite un flash avant hydratation du localStorage
   if (!hydrated) return <div className="min-h-full" />

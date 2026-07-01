@@ -23,13 +23,19 @@ npm run gen:icons  # régénère les PNG du manifest depuis public/icon.svg (via
 
 ## Fonctionnalités
 
+- **Mode SOS 🌊** : « J'ai une envie, là » → respiration guidée (~1 min, 4s/6s) → log du résultat en 1 tap. L'app aide *pendant* l'envie.
 - **Onboarding** doux en 3 écrans (coût/joint + objectif).
-- **Accueil** : jardin SVG animé qui évolue en 8 étapes, 4 actions rapides, résumé du jour, série douce, compteur de ☀️ (soleil).
-- **Logging sans friction** : action positive → petite pluie de ☀️, message d'encouragement, feuille optionnelle « Comment as-tu géré l'envie ? » (attendu / bu / marché / distrait / respiré / cigarette / autre + déclencheur + note). « J'ai fumé » → message bienveillant, **aucune régression du jardin**.
-- **Célébration** animée au passage d'étape (pétales, papillons).
+- **Accueil** : jardin illustré qui évolue en 8 étapes, **arrosage quotidien** (+1 ☀️/jour), 4 actions rapides, résumé du jour, série douce, compteur de ☀️.
+- **Logging sans friction** : action positive → petite pluie de ☀️, encouragement, feuille optionnelle « Comment as-tu géré l'envie ? ». « J'ai fumé » → message bienveillant, **aucune régression du jardin**.
+- **Célébration** animée au passage d'étape + **jalons doux** (~13 badges, dont « Honnêteté »).
+- **Récompense réelle 🎁** : définis un vrai plaisir (resto, jeu…) — tes joints évités le financent (jauge dans Progrès).
 - **Journal** groupé par jour.
-- **Progrès** : objectif (anneau), moments évités / reportés / fumés, **argent économisé**, tendance 7 jours, déclencheurs, séries.
-- **Réglages** : objectif jour/semaine, coût par joint, devise, thème **Jour / Crépuscule**, rappels (UI), export JSON, réinitialisation, notice données locales.
+- **Progrès** : objectif (anneau), stats, **argent économisé**, tendance 7 jours, **moments d'envie par créneau** + tendance douce, déclencheurs, séries, jalons.
+- **Réglages** : objectif, coût par joint, devise, récompense, thème **Jour / Crépuscule**, **rappels best-effort** (Periodic Background Sync — Android installé ; copy honnête ailleurs), **export & import JSON**, réinitialisation, notice données locales.
+- **Offline complet** : polices auto-hébergées (@fontsource), tout est précaché par le service worker.
+- **A11y** : aria-pressed, spinbutton, focus trap dans les sheets, `prefers-reduced-motion` (respiration en mode texte).
+
+**Reporté volontairement** : splash screens iOS, screenshots de manifest, mode paysage, édition d'entrées du journal.
 
 ## Architecture
 

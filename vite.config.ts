@@ -35,7 +35,9 @@ export default defineConfig({
       },
       workbox: {
         globPatterns: ['**/*.{js,css,html,svg,png,ico,woff2}'],
+        globIgnores: ['sw-reminders.js'],
         navigateFallback: 'index.html',
+        importScripts: ['sw-reminders.js'],
       },
       devOptions: {
         enabled: false,

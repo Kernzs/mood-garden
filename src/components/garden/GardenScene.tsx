@@ -1,3 +1,4 @@
+import { useEffect } from 'react'
 import { cn } from '@/lib/cn'
 import { MAX_STAGE } from '@/lib/garden'
 
@@ -7,6 +8,14 @@ interface GardenSceneProps {
 }
 
 const stageSrc = (s: number) => `${import.meta.env.BASE_URL}garden/stage-${s}.png`
+
+const preloaded = new Set<number>()
+function preloadStage(s: number) {
+  if (s < 0 || s > MAX_STAGE || preloaded.has(s)) return
+  preloaded.add(s)
+  const img = new Image()
+  img.src = stageSrc(s)
+}
 
 // ---- Accents animés (dessinés PAR-DESSUS l'illustration) ----
 
@@ -160,6 +169,22 @@ function SceneAccents({ stage }: { stage: number }) {
  */
 export function GardenScene({ stage, className }: GardenSceneProps) {
   const s = Math.max(0, Math.min(stage, MAX_STAGE))
+
+  // Précharge l'étape suivante (évite le flash lors de la célébration de montée)
+  // puis, tranquillement, toutes les autres.
+  useEffect(() => {
+    preloadStage(s + 1)
+    const preloadAll = () => {
+      for (let i = 0; i <= MAX_STAGE; i++) preloadStage(i)
+    }
+    if (typeof window.requestIdleCallback === 'function') {
+      const id = window.requestIdleCallback(preloadAll)
+      return () => window.cancelIdleCallback(id)
+    }
+    const id = window.setTimeout(preloadAll, 3000)
+    return () => window.clearTimeout(id)
+  }, [s])
+
   return (
     <div
       className={cn('relative h-full w-full overflow-hidden', className)}

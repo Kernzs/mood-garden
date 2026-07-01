@@ -30,6 +30,7 @@ export function SegmentedControl<T extends string>({
         return (
           <button
             key={opt.value}
+            aria-pressed={active}
             onClick={() => onChange(opt.value)}
             className={cn(
               'tap flex-1 rounded-full px-3 py-2 text-sm font-bold transition-colors',

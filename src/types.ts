@@ -42,6 +42,13 @@ export type ThemeName = 'daylight' | 'dusk'
 export type GoalScope = 'daily' | 'weekly'
 export type ReminderFrequency = 'off' | 'daily' | 'weekly'
 
+/** Objectif « récompense réelle » : un vrai plaisir financé par les économies. */
+export interface RewardGoal {
+  label: string
+  cost: number
+  startedAt: number // les économies sont comptées à partir de cette date
+}
+
 export interface Settings {
   goalScope: GoalScope
   goalValue: number // gentle target of "avoided moments"
@@ -51,11 +58,16 @@ export interface Settings {
   theme: ThemeName
   language: 'fr'
   onboardingDone: boolean
+  rewardGoal: RewardGoal | null
 }
 
 export interface Progress {
   totalSunlight: number
   gardenStage: number
+  /** dayKey (YYYY-MM-DD) du dernier arrosage quotidien, null si jamais. */
+  lastWateredDay: string | null
+  /** Ids des jalons déjà célébrés (pour ne les fêter qu'une fois). */
+  milestonesSeen: string[]
 }
 
 /** Everything we persist, versioned for future migrations. */

@@ -50,18 +50,48 @@ export function Sheet({ open, onClose, title, subtitle, children }: SheetProps) 
     }
   }, [mounted])
 
-  // Verrou du scroll + Échap
+  // Verrou du scroll + Échap + focus trap (Tab cycle dans la carte)
+  const panelRef = useRef<HTMLDivElement | null>(null)
   useEffect(() => {
     if (!mounted) return
     const prev = document.body.style.overflow
+    const prevFocus = document.activeElement as HTMLElement | null
     document.body.style.overflow = 'hidden'
+
+    const focusables = () =>
+      Array.from(
+        panelRef.current?.querySelectorAll<HTMLElement>(
+          'button, [href], input, textarea, select, [tabindex]:not([tabindex="-1"])',
+        ) ?? [],
+      ).filter((el) => !el.hasAttribute('disabled'))
+
+    // Focus initial sur le premier élément interactif de la carte
+    const t = window.setTimeout(() => focusables()[0]?.focus(), 80)
+
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') onClose()
+      if (e.key === 'Escape') {
+        onClose()
+        return
+      }
+      if (e.key !== 'Tab') return
+      const els = focusables()
+      if (els.length === 0) return
+      const first = els[0]
+      const last = els[els.length - 1]
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault()
+        last.focus()
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault()
+        first.focus()
+      }
     }
     window.addEventListener('keydown', onKey)
     return () => {
       document.body.style.overflow = prev
       window.removeEventListener('keydown', onKey)
+      window.clearTimeout(t)
+      prevFocus?.focus?.()
     }
   }, [mounted, onClose])
 
@@ -117,6 +147,7 @@ export function Sheet({ open, onClose, title, subtitle, children }: SheetProps) 
         )}
       />
       <div
+        ref={panelRef}
         role="dialog"
         aria-modal="true"
         style={panelStyle}

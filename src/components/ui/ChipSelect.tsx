@@ -27,6 +27,7 @@ export function ChipSelect<T extends string>({
         return (
           <button
             key={opt.value}
+            aria-pressed={active}
             onClick={() => onChange(active && clearable ? undefined : opt.value)}
             className={cn(
               'tap inline-flex items-center gap-1.5 rounded-full border px-3.5 py-2 text-sm font-semibold',
