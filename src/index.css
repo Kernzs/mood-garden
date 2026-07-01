@@ -1,0 +1,366 @@
+@import 'tailwindcss';
+
+/* ============================================================
+   Mood Garden — design tokens
+   Palettes as raw CSS variables so themes can swap at runtime.
+   ============================================================ */
+
+:root {
+  /* Daylight (défaut) */
+  --c-bg: #fff6ea;
+  --c-bg2: #ffe6d0;
+  --c-bg3: #e7f6ee;
+  --c-surface: #ffffff;
+  --c-surface2: #fff8f0;
+  --c-border: rgba(120, 90, 70, 0.1);
+  --c-ink: #4c4560;
+  --c-ink-soft: #8b84a0;
+  --c-primary: #6fbf73;
+  --c-primary-ink: #2f7a44;
+  --c-primary-soft: #e2f4e4;
+  --c-sun: #ffc94d;
+  --c-sun-ink: #b5791a;
+  --c-sun-soft: #fff0cf;
+  --c-sky: #a9dcff;
+  --c-peach: #ffcdb8;
+  --c-lavender: #dcd3ff;
+  --c-pink: #ffc0d8;
+  --c-mint: #c4ecd6;
+  --c-neutral: #d7d0e4;
+  --c-neutral-ink: #7a7392;
+  --shadow-soft: 0 12px 34px -14px rgba(90, 65, 95, 0.28);
+  --shadow-lift: 0 20px 44px -18px rgba(90, 65, 95, 0.34);
+  --sky-1: #dff2ff;
+  --sky-2: #fff3e0;
+  --ground-1: #d8f0d4;
+  --ground-2: #bfe6b8;
+}
+
+[data-theme='dusk'] {
+  --c-bg: #221c39;
+  --c-bg2: #2c2350;
+  --c-bg3: #1e1833;
+  --c-surface: #2f2850;
+  --c-surface2: #372f5c;
+  --c-border: rgba(255, 255, 255, 0.08);
+  --c-ink: #f2ecff;
+  --c-ink-soft: #b3a9d6;
+  --c-primary: #7fd08d;
+  --c-primary-ink: #cdf4d3;
+  --c-primary-soft: #2c4a39;
+  --c-sun: #ffd166;
+  --c-sun-ink: #ffe4a0;
+  --c-sun-soft: #45392a;
+  --c-sky: #3a577d;
+  --c-peach: #b98572;
+  --c-lavender: #a99fe0;
+  --c-pink: #d98ab0;
+  --c-mint: #4e7d67;
+  --c-neutral: #453f63;
+  --c-neutral-ink: #b3a9d6;
+  --shadow-soft: 0 14px 40px -16px rgba(0, 0, 0, 0.55);
+  --shadow-lift: 0 24px 50px -18px rgba(0, 0, 0, 0.62);
+  --sky-1: #2a2350;
+  --sky-2: #3a2f5e;
+  --ground-1: #2b3a3f;
+  --ground-2: #22303a;
+}
+
+/* Map semantic vars -> Tailwind utilities (inline = resolves to var() at runtime) */
+@theme inline {
+  --color-bg: var(--c-bg);
+  --color-bg2: var(--c-bg2);
+  --color-bg3: var(--c-bg3);
+  --color-surface: var(--c-surface);
+  --color-surface2: var(--c-surface2);
+  --color-border: var(--c-border);
+  --color-ink: var(--c-ink);
+  --color-ink-soft: var(--c-ink-soft);
+  --color-primary: var(--c-primary);
+  --color-primary-ink: var(--c-primary-ink);
+  --color-primary-soft: var(--c-primary-soft);
+  --color-sun: var(--c-sun);
+  --color-sun-ink: var(--c-sun-ink);
+  --color-sun-soft: var(--c-sun-soft);
+  --color-sky: var(--c-sky);
+  --color-peach: var(--c-peach);
+  --color-lavender: var(--c-lavender);
+  --color-pink: var(--c-pink);
+  --color-mint: var(--c-mint);
+  --color-neutral: var(--c-neutral);
+  --color-neutral-ink: var(--c-neutral-ink);
+
+  --font-sans: 'Nunito', ui-rounded, 'Segoe UI', system-ui, sans-serif;
+  --font-display: 'Baloo 2', 'Nunito', ui-rounded, system-ui, sans-serif;
+
+  --radius-xl2: 1.75rem;
+}
+
+/* ============================================================
+   Base
+   ============================================================ */
+@layer base {
+  * {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  html,
+  body,
+  #root {
+    height: 100%;
+  }
+
+  body {
+    margin: 0;
+    color: var(--c-ink);
+    font-family: var(--font-sans);
+    background:
+      radial-gradient(120% 80% at 50% -10%, var(--c-bg2) 0%, transparent 55%),
+      radial-gradient(90% 60% at 100% 0%, var(--c-bg3) 0%, transparent 45%),
+      var(--c-bg);
+    background-attachment: fixed;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    overscroll-behavior-y: none;
+  }
+
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-display);
+    font-weight: 600;
+    letter-spacing: -0.01em;
+  }
+
+  button {
+    font-family: inherit;
+  }
+
+  ::selection {
+    background: var(--c-primary-soft);
+  }
+}
+
+/* ============================================================
+   Utilities / helpers
+   ============================================================ */
+@layer components {
+  .card-soft {
+    background: color-mix(in srgb, var(--c-surface) 92%, transparent);
+    border: 1px solid var(--c-border);
+    border-radius: var(--radius-xl2);
+    box-shadow: var(--shadow-soft);
+    backdrop-filter: blur(6px);
+  }
+
+  .tap {
+    transition:
+      transform 0.16s cubic-bezier(0.34, 1.56, 0.64, 1),
+      box-shadow 0.2s ease,
+      background-color 0.2s ease;
+  }
+  .tap:active {
+    transform: scale(0.95);
+  }
+
+  .safe-bottom {
+    padding-bottom: max(env(safe-area-inset-bottom), 0.5rem);
+  }
+  .safe-top {
+    padding-top: max(env(safe-area-inset-top), 0.5rem);
+  }
+
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+}
+
+/* ============================================================
+   Keyframes
+   ============================================================ */
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0) translateX(0);
+  }
+  50% {
+    transform: translateY(-10px) translateX(4px);
+  }
+}
+
+@keyframes sway {
+  0%,
+  100% {
+    transform: rotate(-2.2deg);
+  }
+  50% {
+    transform: rotate(2.2deg);
+  }
+}
+
+@keyframes rise-fade {
+  0% {
+    transform: translateY(6px) scale(0.8);
+    opacity: 0;
+  }
+  20% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-70px) scale(1.15);
+    opacity: 0;
+  }
+}
+
+@keyframes bloom {
+  0% {
+    transform: scale(0.5);
+    opacity: 0;
+  }
+  60% {
+    transform: scale(1.08);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes pop-in {
+  0% {
+    transform: translateY(10px) scale(0.96);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes sheet-up {
+  0% {
+    transform: translateY(100%);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes petal-fall {
+  0% {
+    transform: translateY(-10%) rotate(0deg);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(120vh) rotate(520deg);
+    opacity: 0;
+  }
+}
+
+@keyframes twinkle {
+  0%,
+  100% {
+    opacity: 0.25;
+    transform: scale(0.85);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.1);
+  }
+}
+
+@keyframes pulse-glow {
+  0%,
+  100% {
+    opacity: 0.55;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.06);
+  }
+}
+
+@keyframes drift {
+  0% {
+    transform: translateX(-8%);
+  }
+  100% {
+    transform: translateX(8%);
+  }
+}
+
+@keyframes ring-fill {
+  from {
+    stroke-dashoffset: var(--dash-from);
+  }
+  to {
+    stroke-dashoffset: var(--dash-to);
+  }
+}
+
+/* Animation helper classes */
+.anim-float {
+  animation: float 6s ease-in-out infinite;
+}
+.anim-sway {
+  animation: sway 5s ease-in-out infinite;
+  transform-origin: bottom center;
+}
+.anim-twinkle {
+  animation: twinkle 3.2s ease-in-out infinite;
+}
+.anim-glow {
+  animation: pulse-glow 3.6s ease-in-out infinite;
+}
+.anim-drift {
+  animation: drift 18s ease-in-out infinite alternate;
+}
+.anim-pop {
+  animation: pop-in 0.34s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+.anim-bloom {
+  animation: bloom 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+.anim-fade {
+  animation: fade-in 0.25s ease both;
+}
+
+/* Day / night scene element visibility (driven by [data-theme]) */
+.only-night {
+  display: none;
+}
+[data-theme='dusk'] .only-night {
+  display: revert;
+}
+[data-theme='dusk'] .only-day {
+  display: none;
+}
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
