@@ -25,3 +25,8 @@ dist-ssr
 
 # PWA generated (dev)
 dev-dist
+
+# Design source art (kept locally, not shipped — gros fichiers)
+# On garde design/icon-source.png dans git (source des icônes PWA).
+design/full-scenes/
+design/cutouts/
