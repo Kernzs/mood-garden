@@ -359,6 +359,24 @@
   animation: fade-in 0.25s ease both;
 }
 
+/* L'esprit du jardin — sprite pixel-art 4 frames (86×192 chacune) */
+.spirit-sprite {
+  --spirit-w: 64px;
+  width: var(--spirit-w);
+  height: calc(var(--spirit-w) * 192 / 86);
+  background-repeat: no-repeat;
+  background-size: calc(var(--spirit-w) * 4) auto;
+  background-position: 0 0;
+  image-rendering: pixelated;
+  animation: spirit-steps 0.9s steps(4) infinite;
+}
+
+@keyframes spirit-steps {
+  to {
+    background-position-x: calc(var(--spirit-w) * -4);
+  }
+}
+
 /* Day / night scene element visibility (driven by [data-theme]) */
 .only-night {
   display: none;

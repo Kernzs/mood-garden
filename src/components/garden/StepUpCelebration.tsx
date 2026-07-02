@@ -2,6 +2,7 @@ import { useEffect } from 'react'
 import { createPortal } from 'react-dom'
 import { getStage } from '@/lib/garden'
 import { GardenScene } from '@/components/garden/GardenScene'
+import { GardenSpirit } from '@/components/garden/GardenSpirit'
 import { Button } from '@/components/ui/Button'
 
 const PETAL_EMOJIS = ['🌸', '🌼', '🍃', '✨', '🌷', '🦋']
@@ -59,8 +60,10 @@ export function StepUpCelebration({ from, to, plantName, onClose }: StepUpCelebr
         <p className="text-sm font-bold uppercase tracking-wide text-primary-ink">
           {plantName ? `${plantName} grandit` : 'Ton jardin grandit'}
         </p>
-        <div className="mx-auto my-3 h-40 w-40">
+        <div className="relative mx-auto my-3 h-40 w-40">
           <GardenScene stage={to} />
+          {/* L'esprit du jardin vient fêter ça */}
+          <GardenSpirit size={34} className="absolute -bottom-2 -right-4" />
         </div>
         <h2 className="text-2xl text-ink">{target.name} !</h2>
         <p className="mt-1 text-sm text-ink-soft">{target.blurb}</p>

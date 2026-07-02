@@ -46,7 +46,7 @@ export function StatsScreen() {
     return (
       <Screen>
         <ScreenHeader emoji="📈" title="Tes progrès" subtitle="Doux et sans pression." />
-        <EmptyState emoji="🌼" title="Bientôt plein de couleurs" message={copy.emptyStats} />
+        <EmptyState title="Bientôt plein de couleurs" message={copy.emptyStats} />
       </Screen>
     )
   }

@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import { createPortal } from 'react-dom'
 import { Button } from '@/components/ui/Button'
+import { GardenSpirit } from '@/components/garden/GardenSpirit'
 import { cn } from '@/lib/cn'
 
 export type SosOutcome = 'avoided' | 'postponed' | 'smoked'
@@ -122,6 +123,10 @@ export function BreathingOverlay({ open, onClose, onPick }: BreathingOverlayProp
       ) : (
         /* Choix de fin — log en 1 tap, zéro jugement */
         <div className="grid w-full max-w-md flex-1 content-center gap-3">
+          {/* L'esprit du jardin est là pour toi */}
+          <div className="mb-1 flex justify-center">
+            <GardenSpirit size={52} />
+          </div>
           <Button size="lg" fullWidth onClick={() => onPick('avoided')}>
             🌿 Ça va mieux — j'ai évité
           </Button>
